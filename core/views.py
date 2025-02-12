@@ -1,13 +1,18 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.contrib.auth.decorators import user_passes_test
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.conf import settings
 from .models import Course, Enrollment
 from .forms import StudentForm, EnrollmentForm
 
+
+def check_admin(user):
+    return user.is_superuser
+
+
 def home(request):
     return render(request, 'pages/home.html')
-
 
 def courseListView(request):
     courses = Course.objects.filter(is_published=True).values
@@ -15,6 +20,7 @@ def courseListView(request):
     return render(request, 'pages/courses.html', context)
 
 
+@user_passes_test(check_admin)
 def studentListView(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     enrollments = Enrollment.objects.filter(
@@ -28,7 +34,7 @@ def studentListView(request, course_id):
                }
     return render(request, 'pages/students.html', context)
 
-
+@user_passes_test(check_admin)
 def enrollStudent(request):
     if request.method == 'POST':
         student_form = StudentForm(request.POST)
@@ -64,7 +70,7 @@ def enrollStudent(request):
     else:
         return redirect('home')
     
-
+@user_passes_test(check_admin)
 def removeEnrollment(request, enroll_id):
     enrollment = get_object_or_404(Enrollment, pk=enroll_id)
     enrollment.delete()
