@@ -19,5 +19,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('core.urls')),
     path('_nested_admin/', include('nested_admin.urls')),
 ]
+
+
+admin.site.site_header = 'Softbenz'
+admin.site.index_title = 'Admin Panel, Home'
+admin.site.site_title = 'Course Management'
