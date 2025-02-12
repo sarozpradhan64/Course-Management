@@ -13,6 +13,7 @@ class CourseCategory(models.Model):
     class Meta:
         db_table = "course_categories"
         ordering = ['priority']
+        verbose_name_plural = 'Course Categories'
 
     def __str__(self):
         return self.title
@@ -80,6 +81,7 @@ class MCQQuiz(models.Model):
 
     class Meta:
         db_table = "mcq_quizzes"
+        verbose_name_plural = 'MCQ Quizzes'
 
 
 class MCQQuestion(models.Model):
