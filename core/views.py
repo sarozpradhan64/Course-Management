@@ -60,8 +60,13 @@ def enrollStudent(request):
                 fail_silently=False,
             )
             
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        else: 
-            return "test"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return redirect('home')
+    
+
+def removeEnrollment(request, enroll_id):
+    enrollment = get_object_or_404(Enrollment, pk=enroll_id)
+    enrollment.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    

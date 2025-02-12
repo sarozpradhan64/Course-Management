@@ -1,42 +1,58 @@
 {% extends 'layouts/base.html' %} 
-{% block content %}
 
+{% block content %}
 <div class="d-flex flex-wrap justify-content-between">
   <h3>Students Enrolled in "{{course.title}}"</h3>
 
-  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enrollModal">Enroll New Student</button>
+  <button
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#enrollModal"
+  >
+    Enroll New Student
+  </button>
 </div>
 
 {% comment %}
-<!-- Student enrollment modal form  -->
+Student enrollment modal form
 {% endcomment %}
-
-<!-- Modal -->
-<div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="enrollModal"
+  tabindex="-1"
+  aria-labelledby="enrollModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="enrollModalLabel">Enroll Student</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <form action="{% url 'enroll-student' %}" method="POST">
-          {% csrf_token %}
-
-          {{student_form.as_p}}
-          {{enrollment_form.as_p}}
+          {% csrf_token %} {{student_form.as_p}} {{enrollment_form.as_p}}
 
           <div class="mt-4 d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
             <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
-        
         </form>
       </div>
     </div>
   </div>
 </div>
-
 
 <div class="mt-4">
   <table class="table">
@@ -46,6 +62,7 @@
         <th scope="col">Name</th>
         <th scope="col">Email</th>
         <th scope="col">Enrolled At</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -55,7 +72,14 @@
         <td>{{enrollment.student.name}}</td>
         <td>{{enrollment.student.email}}</td>
         <td>{{ enrollment.enrolled_at | date:"M d, Y"}}</td>
-    </tr>
+        <td>
+          <form action="{% url 'remove-enroll' enrollment.id  %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="_method" value="DELETE" />
+            <a class="text-danger remove-enroll">Remove</a>
+          </form>
+        </td>
+      </tr>
       {% empty %}
 
       <tr>
@@ -66,5 +90,23 @@
     </tbody>
   </table>
 </div>
+
+{% endblock %} 
+
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const removeEnrolls = document.querySelectorAll(".remove-enroll");
+    removeEnrolls.forEach((elem) => {
+      elem.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (confirm("Are you sure?")) {
+          e.target.closest("form").submit();
+        }
+      });
+    });
+  });
+</script>
 
 {% endblock %}
