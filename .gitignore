@@ -1,0 +1,5 @@
+pyenv
+db.sqlite3
+media
+**/__pycache__/*
+.env
