@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %} 
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between">
+  <h3>Students Enrolled in "{{course.title}}"</h3>
+
+  <button class="btn btn-primary">Enroll New Student</button>
+</div>
+
+<div class="mt-4">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Enrolled At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for enrollment in enrollments %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{enrollment.student.name}}</td>
+        <td>{{enrollment.student.email}}</td>
+        <td>{{ enrollment.enrolled_at | date:"M d, Y"}}</td>
+    </tr>
+      {% empty %}
+
+      <tr>
+        <td>no data</td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
