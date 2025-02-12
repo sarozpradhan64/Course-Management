@@ -4,8 +4,39 @@
 <div class="d-flex flex-wrap justify-content-between">
   <h3>Students Enrolled in "{{course.title}}"</h3>
 
-  <button class="btn btn-primary">Enroll New Student</button>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enrollModal">Enroll New Student</button>
 </div>
+
+{% comment %}
+<!-- Student enrollment modal form  -->
+{% endcomment %}
+
+<!-- Modal -->
+<div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="enrollModalLabel">Enroll Student</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'enroll-student' %}" method="POST">
+          {% csrf_token %}
+
+          {{student_form.as_p}}
+          {{enrollment_form.as_p}}
+
+          <div class="mt-4 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="mt-4">
   <table class="table">
