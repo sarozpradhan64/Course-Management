@@ -1,8 +1,33 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/base.html' %} 
 
 {% block content %}
 
-
-    Course Management system
+<header class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-3">Online Courses</h1>
+        <p class="lead mb-4">
+          Lorem ipsum dolor sit amet consectetur adipiscing elit congue per,
+          sapien nisl cum velit placerat vulputate dignissim venenatis,
+          curabitur faucibus accumsan hac blandit porttitor mauris ligula.
+          Dignissim velit nascetur ornare mi tristique consequat donec senectus
+          enim in commodo, vit
+        </p>
+        <a href="{% url 'course-list' %}" class="btn btn-light btn-lg me-2">
+          <i class="fab fa-apple me-2"></i> View Courses
+        </a>
+      </div>
+      <div class="col-lg-6 py-4">
+        <img
+          class="rounded"
+          src="https://images.unsplash.com/photo-1590959651373-a3db0f38a961?q=80&w=2539&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="App Screenshot"
+          style="width: 100%"
+        />
+      </div>
+    </div>
+  </div>
+</header>
 
 {% endblock %}
