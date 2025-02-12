@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
-from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator 
+
 
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=255)
-    priority = models.IntegerField()
+    priority = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,11 +43,16 @@ def file_path(instance, filename):
     return f'course_{instance.course.id}/{filename}'
 
 
+def validate_file_size_video(value):
+    filesize = value.size
+    if filesize > 52428800:  # 50MB
+        raise ValidationError("Maximum file size is 50MB")
+
 class CourseVideo(models.Model):
     course = models.ForeignKey(
         Course, related_name="videos", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    file = models.FileField(upload_to=file_path)
+    file = models.FileField(upload_to=file_path, validators=[validate_file_size_video, FileExtensionValidator(['mp4'])])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -57,11 +63,16 @@ class CourseVideo(models.Model):
         return self.title
 
 
+def validate_file_size_document(value):
+    filesize = value.size
+    if filesize > 10485760:  # 10MB
+        raise ValidationError("Maximum file size is 10MB")
+
 class CourseDocument(models.Model):
     course = models.ForeignKey(
         Course, related_name="documents", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    file = models.FileField(upload_to=file_path)
+    file = models.FileField(upload_to=file_path, validators=[validate_file_size_document, FileExtensionValidator(['pdf'])])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
