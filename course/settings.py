@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'nested_admin',
     'debug_toolbar',
     'core.apps.CoreConfig',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
