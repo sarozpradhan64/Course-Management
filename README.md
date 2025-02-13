@@ -12,6 +12,7 @@ cd Course-Management
 
 ```
 # setup virtualenv
+pip install virtualenv
 python -m virtualenv pyenv
 ```
 
