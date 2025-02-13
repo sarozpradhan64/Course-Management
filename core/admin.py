@@ -5,7 +5,7 @@ from .models import *
 
 @admin.register(CourseCategory)
 class CouseCategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'priority', 'created_at']
+    list_display = ['title', 'priority', 'created_at']
     list_filter = ['priority']
     search_fields = ['title']
 
@@ -22,7 +22,7 @@ class CourseDocumentAdmin(admin.TabularInline):
 
 @admin.register(Course)
 class CouseAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'is_published', 'created_at']
+    list_display = ['title', 'is_published', 'created_at']
     list_filter = ['is_published']
     search_fields = ['title']
     inlines = [CourseVideoAdmin, CourseDocumentAdmin]
@@ -42,8 +42,7 @@ class MCQQuestionAdmin(nested_admin.NestedTabularInline):
 
 @admin.register(MCQQuiz)
 class MCQQuizAdmin(nested_admin.NestedModelAdmin):
-    list_display = ['id', 'title', 'course']
-    list_link = ['id', 'title']
+    list_display = ['title', 'course']
     list_filter = ['course']
     search_fields = ['course', 'title']
     inlines = [MCQQuestionAdmin]
@@ -51,13 +50,12 @@ class MCQQuizAdmin(nested_admin.NestedModelAdmin):
     
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'email']
-    list_link = ['id', 'name']
+    list_display = ['name', 'email']
     search_fields = ['email', 'name']
 
 
 @admin.register(Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'course']
-    list_link = ['id', 'student']
+    list_display = ['student', 'course']
+    list_link = ['student']
     search_fields = ['course', 'student']
