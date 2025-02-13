@@ -15,9 +15,18 @@
   <body data-bs-theme="dark">
     {% include 'layouts/navbar.html' %}
 
+    
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    
     <main class="container">
       <section class="my-5">{% block content %} {% endblock %}</section>
     </main>
+
+
 
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
